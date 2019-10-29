@@ -29,17 +29,13 @@ class _AddDogFormPageState extends State<AddDogFormPage> {
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: TextField(
                   controller: nameController,
-                  onChanged: (v) => nameController.text = v,
-                  decoration: InputDecoration(
-                      labelText: 'Name the Pup'
-                  ),
+                  decoration: InputDecoration(labelText: 'Name the Pup'),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: TextField(
                     controller: locationController,
-                    onChanged: (v) => locationController.text = v,
                     decoration: InputDecoration(
                       labelText: "Pup's location",
                     )),
@@ -48,17 +44,14 @@ class _AddDogFormPageState extends State<AddDogFormPage> {
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: TextField(
                   controller: descriptionController,
-                  onChanged: (v) => descriptionController.text = v,
-                  decoration: InputDecoration(
-                      labelText: 'All about the pup'
-                  ),
+                  decoration: InputDecoration(labelText: 'All about the pup'),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Builder(builder: (context) {
                   return RaisedButton(
-                    onPressed: () => print('PRESSED'),
+                    onPressed: () => submitPup(context),
                     color: Colors.indigoAccent,
                     child: Text("Add pup"),
                   );
@@ -69,5 +62,20 @@ class _AddDogFormPageState extends State<AddDogFormPage> {
         ),
       ),
     );
+  }
+
+  void submitPup(BuildContext context) {
+    if (nameController.text.isEmpty) {
+      Scaffold.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.redAccent,
+          content: Text('Dogs need name!'),
+        )
+      );
+    } else {
+      var newDog = Dog(nameController.text, locationController.text,
+          descriptionController.text);
+      Navigator.of(context).pop(newDog);
+    }
   }
 }
